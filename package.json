@@ -1,12 +1,15 @@
 {
   "name": "caesar-cypher",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "main.js",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "electron": "electron .",
+    "electron-build": "ng build --base-href ./ && electron .",
     "serve:ssr:caesar-cypher": "node dist/caesar-cypher/server/server.mjs"
   },
   "private": true,
@@ -33,6 +36,7 @@
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
+    "electron": "^34.1.1",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
