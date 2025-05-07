@@ -1,0 +1,88 @@
+<div class="container">
+  <h1>Шифр Виженера</h1>
+
+  <form [formGroup]="cipherForm" (ngSubmit)="onSubmit()" class="cipher-form">
+    <div class="form-group">
+      <label for="text">Текст:</label>
+      <textarea
+        id="text"
+        formControlName="text"
+        placeholder="Введите текст на русском языке"
+        rows="4"
+        class="form-control"
+      ></textarea>
+      <div
+        class="error-message"
+        *ngIf="cipherForm.get('text')?.errors?.['required'] && cipherForm.get('text')?.touched"
+      >
+        Текст обязателен
+      </div>
+      <div
+        class="error-message"
+        *ngIf="cipherForm.get('text')?.errors?.['pattern'] && cipherForm.get('text')?.touched"
+      >
+        Используйте только русские буквы
+      </div>
+    </div>
+
+    <div
+      class="form-group"
+      *ngIf="cipherForm.get('operation')?.value !== 'crack'"
+    >
+      <label for="key">Ключ:</label>
+      <input
+        type="text"
+        id="key"
+        formControlName="key"
+        placeholder="Введите ключ"
+        class="form-control"
+      />
+      <div
+        class="error-message"
+        *ngIf="cipherForm.get('key')?.errors?.['required'] && cipherForm.get('key')?.touched"
+      >
+        Ключ обязателен
+      </div>
+      <div
+        class="error-message"
+        *ngIf="cipherForm.get('key')?.errors?.['pattern'] && cipherForm.get('key')?.touched"
+      >
+        Используйте только русские буквы
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="operation">Операция:</label>
+      <select id="operation" formControlName="operation" class="form-control">
+        <option value="encrypt">Зашифровать</option>
+        <option value="decrypt">Расшифровать</option>
+        <option value="crack">Взломать</option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!cipherForm.valid"
+      >
+        Выполнить
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="clearForm()">
+        Очистить
+      </button>
+    </div>
+  </form>
+
+  <div class="result-section" *ngIf="result || error || foundKey">
+    <div class="error-message" *ngIf="error">{{ error }}</div>
+    <div class="result" *ngIf="foundKey">
+      <h3>Найденный ключ:</h3>
+      <p>{{ foundKey }}</p>
+    </div>
+    <div class="result" *ngIf="result">
+      <h3>Результат:</h3>
+      <p>{{ result }}</p>
+    </div>
+  </div>
+</div>
