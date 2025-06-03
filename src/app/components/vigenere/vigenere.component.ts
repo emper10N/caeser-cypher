@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,15 +7,17 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { VigenereService } from '../../services/vigenere.service';
+import { CyrillicHighlightDirective } from '../../directive/hilight.directive';
 
 @Component({
   selector: 'app-vigenere',
   templateUrl: './vigenere.component.html',
   styleUrls: ['./vigenere.component.scss'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, CyrillicHighlightDirective],
 })
 export class VigenereComponent {
+  @ViewChild('textInput') textInput!: ElementRef;
   cipherForm: FormGroup;
   result: string = '';
   foundKey: string = '';
@@ -26,15 +28,11 @@ export class VigenereComponent {
     private vigenereService: VigenereService
   ) {
     this.cipherForm = this.fb.group({
-      text: [
-        '',
-        [Validators.required, Validators.pattern(/^[а-яА-ЯёЁ\s.,!?-]*$/)],
-      ],
-      key: ['', [Validators.pattern(/^[а-яА-ЯёЁ\s.,!?-]*$/)]],
+      text: ['', [Validators.required, Validators.pattern(/^[а-яА-ЯёЁ\s]*$/)]],
+      key: ['', [Validators.pattern(/^[а-яА-ЯёЁ\s]*$/)]],
       operation: ['encrypt', Validators.required],
     });
 
-    // Подписываемся на изменения операции для обновления валидации ключа
     this.cipherForm.get('operation')?.valueChanges.subscribe((operation) => {
       const keyControl = this.cipherForm.get('key');
       if (operation === 'crack') {
@@ -42,16 +40,22 @@ export class VigenereComponent {
       } else {
         keyControl?.setValidators([
           Validators.required,
-          Validators.pattern(/^[а-яА-ЯёЁ\s.,!?-]*$/),
+          Validators.pattern(/^[а-яА-ЯёЁ]*$/),
         ]);
       }
       keyControl?.updateValueAndValidity();
     });
   }
 
+  onTextChange() {
+    const text = this.textInput.nativeElement.innerText;
+    this.cipherForm.patchValue({ text });
+  }
+
   onSubmit() {
     if (this.cipherForm.valid) {
-      const { text, key, operation } = this.cipherForm.value;
+      const text = this.textInput.nativeElement.innerText;
+      const { key, operation } = this.cipherForm.value;
       this.error = '';
       this.foundKey = '';
 
@@ -81,6 +85,7 @@ export class VigenereComponent {
 
   clearForm() {
     this.cipherForm.reset({ operation: 'encrypt' });
+    this.textInput.nativeElement.innerText = '';
     this.result = '';
     this.foundKey = '';
     this.error = '';

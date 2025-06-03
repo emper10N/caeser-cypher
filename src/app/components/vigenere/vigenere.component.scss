@@ -1,3 +1,35 @@
+.non-cyrillic {
+  color: #dc3545;
+  font-weight: bold;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.cyrillic-highlight-overlay {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 5px;
+  border: 1px solid #ccc;
+  width: calc(100% - 12px);
+  min-height: 100px;
+  background: white;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+textarea {
+  width: 300px;
+  height: 100px;
+  font-family: Arial, sans-serif;
+  color: black;
+  background: transparent !important;
+}
+
+.textarea-container {
+  position: relative;
+  display: inline-block;
+}
+
 .container {
   max-width: 800px;
   margin: 2rem auto;
@@ -43,9 +75,59 @@ h1 {
   }
 }
 
+.text-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.character-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  padding: 0.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  overflow: hidden;
+
+  span {
+    color: black;
+  }
+}
+
+.text-input {
+  min-height: 100px;
+  background: white;
+  color: black;
+  font-family: inherit;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-y: auto;
+}
+
 textarea.form-control {
   resize: vertical;
   min-height: 100px;
+  background: white;
+  color: black;
+  caret-color: black;
+  position: relative;
+  z-index: 1;
+  font-family: inherit;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+textarea.form-control::selection {
+  background: #4a90e2;
+  color: white;
 }
 
 .button-group {

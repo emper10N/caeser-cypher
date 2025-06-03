@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+.non-cyrillic {
+  color: red !important;
+}
+
+.cyrillic-highlight-overlay {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 5px;
+  border: 1px solid #ccc;
+  width: calc(100% - 12px);
+  min-height: 100px;
+  background: white;
+}
+
+textarea {
+  width: 300px;
+  height: 100px;
+  font-family: Arial, sans-serif;
+}

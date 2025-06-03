@@ -4,13 +4,15 @@
   <form [formGroup]="cipherForm" (ngSubmit)="onSubmit()" class="cipher-form">
     <div class="form-group">
       <label for="text">Текст:</label>
-      <textarea
+      <div
         id="text"
-        formControlName="text"
+        #textInput
+        appCyrillicHighlight
+        contenteditable="true"
+        class="form-control text-input"
         placeholder="Введите текст на русском языке"
-        rows="4"
-        class="form-control"
-      ></textarea>
+        (input)="onTextChange()"
+      ></div>
       <div
         class="error-message"
         *ngIf="cipherForm.get('text')?.errors?.['required'] && cipherForm.get('text')?.touched"
