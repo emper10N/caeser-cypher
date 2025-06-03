@@ -17,11 +17,16 @@ export class CaesarService {
   constructor() {}
 
   private normalizeText(text: string): string {
-    return text.toLowerCase();
+    return text.toLowerCase().replace(/\s+/g, '');
   }
 
   private formatOutput(text: string): string {
-    return text.toUpperCase();
+    const upperText = text.toUpperCase();
+    const groups = [];
+    for (let i = 0; i < upperText.length; i += 5) {
+      groups.push(upperText.slice(i, i + 5));
+    }
+    return groups.join(' ');
   }
 
   encrypt(text: string, key: number): string {
