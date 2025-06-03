@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CaesarService {
-  private readonly russianAlphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя';
+  private readonly russianAlphabet = 'абвгдежзийклмнопрстуфхцчшщъыьэюя';
   private readonly englishAlphabet = 'abcdefghijklmnopqrstuvwxyz';
   private readonly russianAlphabetSize = this.russianAlphabet.length;
   private readonly englishAlphabetSize = this.englishAlphabet.length;
@@ -66,17 +66,20 @@ export class CaesarService {
   }
 
   crack(text: string): { decryptedText: string; shift: number } {
-    const frequencies = this.calculateFrequencies(text);
-    const expectedFrequencies = this.getExpectedFrequencies();
+    const normalizedText = this.normalizeText(text);
+    const frequencies = this.calculateFrequencies(normalizedText);
+    const expectedFrequencies = this.russianFrequencies;
+
     let bestShift = 0;
     let minDifference = Infinity;
 
     for (let shift = 0; shift < this.russianAlphabetSize; shift++) {
-      const difference = this.calculateDifference(
+      const difference = this.calculateLeastSquaresDifference(
         frequencies,
         expectedFrequencies,
         shift
       );
+
       if (difference < minDifference) {
         minDifference = difference;
         bestShift = shift;
@@ -93,37 +96,33 @@ export class CaesarService {
     const frequencies = new Array(this.russianAlphabetSize).fill(0);
     let totalLetters = 0;
 
-    text
-      .toLowerCase()
-      .split('')
-      .forEach((char) => {
-        const index = this.russianAlphabet.indexOf(char);
-        if (index !== -1) {
-          frequencies[index]++;
-          totalLetters++;
-        }
-      });
+    for (const char of text) {
+      const index = this.russianAlphabet.indexOf(char);
+      if (index !== -1) {
+        frequencies[index]++;
+        totalLetters++;
+      }
+    }
 
     return frequencies.map((freq) =>
       totalLetters > 0 ? freq / totalLetters : 0
     );
   }
 
-  private getExpectedFrequencies(): number[] {
-    return this.russianFrequencies;
-  }
-
-  private calculateDifference(
+  private calculateLeastSquaresDifference(
     actual: number[],
     expected: number[],
     shift: number
   ): number {
     let sum = 0;
-    for (let i = 0; i < this.russianAlphabetSize; i++) {
-      const shiftedIndex = (i + shift) % this.russianAlphabetSize;
+    const n = this.russianAlphabetSize;
+
+    for (let i = 0; i < n; i++) {
+      const shiftedIndex = (i + shift) % n;
       const diff = actual[shiftedIndex] - expected[i];
       sum += diff * diff;
     }
-    return sum;
+
+    return sum / n;
   }
 }
