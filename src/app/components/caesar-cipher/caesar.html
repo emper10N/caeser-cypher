@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Шифр Виженера</h1>
+  <h1>Шифр Цезаря</h1>
 
   <form [formGroup]="cipherForm" (ngSubmit)="onSubmit()" class="cipher-form">
     <div class="form-group">
@@ -7,7 +7,7 @@
       <div
         id="text"
         #textInput
-        [appCyrillicHighlight]="'/^[а-яА-ЯёЁ\\s]$/'"
+        [appCyrillicHighlight]="'/^[а-яА-ЯёЁa-zA-Z\\s]$/'"
         contenteditable="true"
         class="form-control text-input"
         placeholder="Введите текст на русском языке"
@@ -31,12 +31,12 @@
       class="form-group"
       *ngIf="cipherForm.get('operation')?.value !== 'crack'"
     >
-      <label for="key">Ключ:</label>
+      <label for="key">Ключ (число):</label>
       <input
-        type="text"
+        type="number"
         id="key"
         formControlName="key"
-        placeholder="Введите ключ"
+        placeholder="Введите ключ (любое целое число без ведущих нулей)"
         class="form-control"
       />
       <div
@@ -49,7 +49,7 @@
         class="error-message"
         *ngIf="cipherForm.get('key')?.errors?.['pattern'] && cipherForm.get('key')?.touched"
       >
-        Используйте только русские буквы
+        Ключ должен быть целым числом без ведущих нулей
       </div>
     </div>
 
@@ -79,7 +79,7 @@
   <div class="result-section" *ngIf="result || error || foundKey">
     <div class="error-message" *ngIf="error">{{ error }}</div>
     <div class="result" *ngIf="foundKey">
-      <h3>Найденный ключ:</h3>
+      <h3>Найденный сдвиг:</h3>
       <p>{{ foundKey }}</p>
     </div>
     <div class="result" *ngIf="result">

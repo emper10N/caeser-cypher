@@ -1,7 +1,9 @@
 .non-cyrillic {
   color: #dc3545;
+  text-decoration: underline;
+  text-decoration-color: red;
   font-weight: bold;
-  text-decoration-line: underline;
+  background-color: rgba(255, 0, 0, 0.1);
 }
 
 .cyrillic-highlight-overlay {
@@ -29,7 +31,6 @@ textarea {
   position: relative;
   display: inline-block;
 }
-
 .container {
   max-width: 800px;
   margin: 2rem auto;
@@ -51,13 +52,13 @@ h1 {
 
 .form-group {
   margin-bottom: 1.5rem;
+}
 
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-    font-weight: 500;
-  }
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
 }
 
 .form-control {
@@ -67,12 +68,12 @@ h1 {
   border-radius: 4px;
   font-size: 1rem;
   transition: border-color 0.15s ease-in-out;
+}
 
-  &:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.25);
-  }
+.form-control:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.25);
 }
 
 .text-input-wrapper {
@@ -94,10 +95,10 @@ h1 {
   font-size: 1rem;
   line-height: 1.5;
   overflow: hidden;
+}
 
-  span {
-    color: black;
-  }
+.character-overlay span {
+  color: black;
 }
 
 .text-input {
@@ -144,29 +145,29 @@ textarea.form-control::selection {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.15s ease-in-out;
+}
 
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .btn-primary {
   background-color: #4a90e2;
   color: white;
+}
 
-  &:hover:not(:disabled) {
-    background-color: #357abd;
-  }
+.btn-primary:hover:not(:disabled) {
+  background-color: #357abd;
 }
 
 .btn-secondary {
   background-color: #6c757d;
   color: white;
+}
 
-  &:hover:not(:disabled) {
-    background-color: #5a6268;
-  }
+.btn-secondary:hover:not(:disabled) {
+  background-color: #5a6268;
 }
 
 .error-message {
@@ -181,16 +182,16 @@ textarea.form-control::selection {
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-  }
+.result-section h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
 
-  p {
-    font-family: monospace;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    word-break: break-all;
-  }
+.result-section p {
+  font-family: monospace;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  word-break: break-all;
 }

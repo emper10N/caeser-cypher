@@ -1,4 +1,5 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { trigger } from '@angular/animations';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
   selector: '[appCyrillicHighlight]',
@@ -9,6 +10,17 @@ export class CyrillicHighlightDirective {
   private isComposing: boolean = false;
 
   constructor(private el: ElementRef) {}
+  private _regex: RegExp = /^[а-яА-ЯёЁ\s]$/;
+
+  @Input('appCyrillicHighlight')
+  set regexPattern(pattern: string | RegExp) {
+    if (typeof pattern === 'string') {
+      const patternBody = pattern.replace(/^\/|\/$/g, '');
+      this._regex = new RegExp(patternBody);
+    } else {
+      this._regex = pattern;
+    }
+  }
 
   @HostListener('compositionstart')
   onCompositionStart() {
@@ -51,7 +63,7 @@ export class CyrillicHighlightDirective {
       let lastIndex = 0;
 
       for (let i = 0; i < line.length; i++) {
-        if (!/^[а-яА-ЯёЁ\s]$/.test(line[i])) {
+        if (!this._regex.test(line[i])) {
           if (i > lastIndex) {
             fragment.appendChild(
               document.createTextNode(line.slice(lastIndex, i))
