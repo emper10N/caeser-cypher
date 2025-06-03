@@ -39,7 +39,6 @@ export class CaesarService {
     for (let i = 0; i < normalizedText.length; i++) {
       const char = normalizedText[i];
 
-      // Check if character is Russian
       const russianIndex = this.russianAlphabet.indexOf(char);
       if (russianIndex !== -1) {
         const russianKey =
@@ -50,7 +49,6 @@ export class CaesarService {
         continue;
       }
 
-      // Check if character is English
       const englishIndex = this.englishAlphabet.indexOf(char);
       if (englishIndex !== -1) {
         const englishKey =
@@ -61,7 +59,6 @@ export class CaesarService {
         continue;
       }
 
-      // If character is neither Russian nor English, keep it as is
       result += char;
     }
 
